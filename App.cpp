@@ -8,8 +8,6 @@ int main()
 	settings.antialiasingLevel = 8;
 	sf::RenderWindow window(sf::VideoMode(WINDOW_WIDTH, WINDOW_HEIGHT), "VisualGraph", sf::Style::Close | sf::Style::Titlebar, settings);
 
-
-
 	NodeCollection nodeCollection;
 
 
@@ -30,12 +28,10 @@ int main()
 				window.close();
 			}
 		}
-
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Escape))
 		{
 			window.close();
 		}
-
 		if (sf::Mouse::isButtonPressed(sf::Mouse::Left))
 		{
 			sf::Vector2i pos = sf::Mouse::getPosition(window);
@@ -84,16 +80,11 @@ int main()
 				nodeCollection.addNode(sf::Vector2f(60.0f, 60.0f));
 				rightClicked = true;
 			}
-			
 		}
 		else
 		{
 			rightClicked = false;
 		}
-
-
-
-
 		window.clear();
 		for (const auto& node : nodeCollection.nodes)
 		{
