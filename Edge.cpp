@@ -5,17 +5,23 @@ Edge::Edge(const Node* node1, const Node* node2)
 {
 	this->nodes.node1 = node1;
 	this->nodes.node2 = node2;
-	this->shape.line = new sf::VertexArray(sf::Quads, 4);
+
+	this->shape.line = new sf::VertexArray(sf::Lines, 2);
+
 	sf::Vector2f node1Pos = node1->getCircleShape().getPosition();
 	sf::Vector2f node2Pos = node2->getCircleShape().getPosition();
 	const float node1Radius = node1->getCircleShape().getRadius();
 	const float node2Radius = node2->getCircleShape().getRadius();
-	(*this->shape.line)[0].position = node1Pos;
-	(*this->shape.line)[1].position = sf::Vector2f(node1Pos.x + node1Radius, node1Pos.y + node1Radius);
-	(*this->shape.line)[2].position = node2Pos;
-	(*this->shape.line)[3].position = sf::Vector2f(node2Pos.x + node2Radius, node2Pos.y + node2Radius);
+	const float centerX1 = node1Pos.x + node1Radius;
+	const float centerY1 = node1Pos.y + node1Radius;
+	const float centerX2 = node2Pos.x + node2Radius;
+	const float centerY2 = node2Pos.y + node2Radius;
 
-	for (unsigned int i = 0; i < 4; i++)
+	(*this->shape.line)[0].position = sf::Vector2f(centerX1, centerY1);
+	(*this->shape.line)[1].position = sf::Vector2f(centerX2, centerY2);
+	
+
+	for (unsigned int i = 0; i < 2; i++)
 	{
 		(*this->shape.line)[i].color = WHITE;
 	}
@@ -33,10 +39,15 @@ void Edge::updatePosition()
 	sf::Vector2f node2Pos = this->nodes.node2->getCircleShape().getPosition();
 	const float node1Radius = this->nodes.node1->getCircleShape().getRadius();
 	const float node2Radius = this->nodes.node2->getCircleShape().getRadius();
-	(*this->shape.line)[0].position = node1Pos;
-	(*this->shape.line)[1].position = sf::Vector2f(node1Pos.x + node1Radius, node1Pos.y + node1Radius);
-	(*this->shape.line)[2].position = node2Pos;
-	(*this->shape.line)[3].position = sf::Vector2f(node2Pos.x + node2Radius, node2Pos.y + node2Radius);
+
+	const float centerX1 = node1Pos.x + node1Radius;
+	const float centerY1 = node1Pos.y + node1Radius;
+	const float centerX2 = node2Pos.x + node2Radius;
+	const float centerY2 = node2Pos.y + node2Radius;
+
+	(*this->shape.line)[0].position = sf::Vector2f(centerX1, centerY1);
+	(*this->shape.line)[1].position = sf::Vector2f(centerX2, centerY2);
+
 }
 
 const sf::VertexArray& Edge::getVertexArray() const

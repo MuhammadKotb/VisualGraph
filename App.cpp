@@ -92,6 +92,8 @@ int main()
 			if (!spacePressed)
 			{
 				edgeCollection.addEdge(nodeCollection.nodes[0], nodeCollection.nodes[1]);
+				edgeCollection.addEdge(nodeCollection.nodes[0], nodeCollection.nodes[2]);
+				edgeCollection.addEdge(nodeCollection.nodes[1], nodeCollection.nodes[2]);
 				spacePressed = true;
 			}
 
