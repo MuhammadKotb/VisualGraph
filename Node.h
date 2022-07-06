@@ -5,24 +5,32 @@
 class Node
 {
 public:
-	Node(sf::Vector2f position);
+	int id = -1;
+	Node(sf::Vector2f position, int id);
 	~Node();
 	const sf::CircleShape& getCircleShape() const;
+	const sf::Text& getIdText() const;
 	void setPosition(sf::Vector2f position);
 	void setRadius(float radius);
+	void setTextPosition(sf::Vector2f position);
 	bool inNode(sf::Vector2f position) const;
 
+
 private:
-	sf::CircleShape* circle;
+	typedef struct Shape {
+		sf::CircleShape* circle;
+		sf::Text* idText;
+		sf::Font* font;
+	} Shape;
 
-
+	Shape shape;
 };
 
 
 struct NodeCollection
 {
 	std::vector<Node*> nodes;
-	void addNode(Node* node);
+	void addNode(sf::Vector2f position);
 	NodeCollection();
 	~NodeCollection();
 };

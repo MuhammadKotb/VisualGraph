@@ -1,42 +1,56 @@
 #include "Node.h"
 
-
-
-Node::Node(sf::Vector2f position)
+Node::Node(sf::Vector2f position, int id) : id(id)
 {
-	this->circle = new sf::CircleShape();
-	this->circle->setPosition(position);
-	this->circle->setRadius(NODE_RADIUS);
-	this->circle->setFillColor(BLACK);
-	this->circle->setOutlineThickness(NODE_THICKNESS);
-	this->circle->setOutlineColor(RED);
-}
+	this->shape.circle = new sf::CircleShape();
+	this->shape.circle->setPosition(position);
+	this->shape.circle->setRadius(NODE_RADIUS);
+	this->shape.circle->setFillColor(BLACK);
+	this->shape.circle->setOutlineThickness(NODE_THICKNESS);
+	this->shape.circle->setOutlineColor(RED);
+	this->shape.font = new sf::Font();
+	this->shape.font->loadFromFile(FIRA_CODE_FONT);
+	this->shape.idText = new sf::Text();
+	this->shape.idText->setFont(*this->shape.font);
+	this->shape.idText->setFillColor(WHITE);
+	this->shape.idText->setCharacterSize(NODE_FONT_SIZE);
+	this->shape.idText->setString(std::to_string(id));
+}	
 
 Node::~Node()
 {
-	delete (this->circle);
+	delete (this->shape.circle);
 }
 
 const sf::CircleShape& Node::getCircleShape() const
 {
-	return *this->circle;
+	return *this->shape.circle;
 }
 
+const sf::Text& Node::getIdText() const
+{
+	return *this->shape.idText;
+}
 void Node::setPosition(sf::Vector2f position)
 {
-	this->circle->setPosition(position);
+	this->shape.circle->setPosition(position);
 }
 
 
 void Node::setRadius(float radius)
 {
-	this->circle->setRadius(radius);
+	this->shape.circle->setRadius(radius);
+}
+
+void Node::setTextPosition(sf::Vector2f position)
+{
+	this->shape.idText->setPosition(position);
 }
 
 bool Node::inNode(sf::Vector2f position) const
 {
-	return position.x > this->circle->getPosition().x && position.x < this->circle->getPosition().x + this->circle->getRadius() * 2
-		&& position.y > this->circle->getPosition().y && position.y < this->circle->getPosition().y + this->circle->getRadius() * 2;
+	return position.x > this->shape.circle->getPosition().x && position.x <this->shape.circle->getPosition().x + this->shape.circle->getRadius() * 2
+		&& position.y > this->shape.circle->getPosition().y && position.y < this->shape.circle->getPosition().y + this->shape.circle->getRadius() * 2;
 }
 
 NodeCollection::NodeCollection()
@@ -45,14 +59,15 @@ NodeCollection::NodeCollection()
 }
 NodeCollection::~NodeCollection()
 {
-	for (int i = 0; i < this->nodes.size(); i++)
+	for (unsigned int i = 0; i < this->nodes.size(); i++)
 	{
 		delete (nodes[i]);
 	}
 }
 
 
-void NodeCollection::addNode(Node* node)
+void NodeCollection::addNode(sf::Vector2f position)
 {
+	Node* node = new Node(position, this->nodes.size());
 	this->nodes.push_back(node);
 }
