@@ -18,9 +18,9 @@ public:
 
 private:
 	typedef struct Shape {
-		sf::CircleShape* circle;
-		sf::Text* idText;
-		sf::Font* font;
+		sf::CircleShape* circle = nullptr;
+		sf::Text* idText = nullptr;
+		sf::Font* font = nullptr;
 	} Shape;
 
 	Shape shape;

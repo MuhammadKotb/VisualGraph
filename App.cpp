@@ -2,6 +2,7 @@
 #include <SFML/Graphics.hpp>
 #include "MACROS.h"
 #include "Node.h"
+#include "Edge.h"
 int main()
 {
 	sf::ContextSettings settings;
@@ -9,10 +10,11 @@ int main()
 	sf::RenderWindow window(sf::VideoMode(WINDOW_WIDTH, WINDOW_HEIGHT), "VisualGraph", sf::Style::Close | sf::Style::Titlebar, settings);
 
 	NodeCollection nodeCollection;
-
+	EdgeCollection edgeCollection;
 
 	bool leftclicked = false;
 	bool rightClicked = false;
+	bool spacePressed = false;
 	Node* currentNode = nullptr;
 
 
@@ -85,6 +87,19 @@ int main()
 		{
 			rightClicked = false;
 		}
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space))
+		{
+			if (!spacePressed)
+			{
+				edgeCollection.addEdge(nodeCollection.nodes[0], nodeCollection.nodes[1]);
+				spacePressed = true;
+			}
+
+		}
+		else
+		{
+			spacePressed = false;
+		}
 		window.clear();
 		for (const auto& node : nodeCollection.nodes)
 		{
@@ -93,6 +108,12 @@ int main()
 			const float radius = node->getCircleShape().getRadius();
 			node->setTextPosition(sf::Vector2f(nodePos.x + radius / 2 + 3.5f, nodePos.y + radius / 2 - 1.6f));
 			window.draw(node->getIdText());
+		}
+
+		for (const auto& edge : edgeCollection.edges)
+		{
+			edge->updatePosition();
+			window.draw(edge->getVertexArray());
 		}
 		window.display();
 	}

@@ -20,8 +20,8 @@ Node::Node(sf::Vector2f position, int id) : id(id)
 Node::~Node()
 {
 	delete (this->shape.circle);
-	delete(this->shape.idText);
-	delete(this->shape.font);
+	delete (this->shape.idText);
+	delete (this->shape.font);
 }
 
 const sf::CircleShape& Node::getCircleShape() const
