@@ -7,10 +7,27 @@ int main()
 {
 	sf::ContextSettings settings;
 	settings.antialiasingLevel = 8;
-	sf::RenderWindow window(sf::VideoMode(WINDOW_WIDTH, WINDOW_HEIGHT), "VisualGraph", sf::Style::Close | sf::Style::Titlebar, settings);
+	sf::RenderWindow window(sf::VideoMode(WINDOW_WIDTH, WINDOW_HEIGHT), "VisualGraph", sf::Style::Close | sf::Style::Titlebar | sf::Style::Fullscreen, settings);
 
 	NodeCollection nodeCollection;
 	EdgeCollection edgeCollection;
+
+
+	nodeCollection.addNode(sf::Vector2f(60.0f, 60.0f));
+	nodeCollection.addNode(sf::Vector2f(120.0f, 60.0f));
+	nodeCollection.addNode(sf::Vector2f(150.0f, 100.0f));
+	nodeCollection.addNode(sf::Vector2f(120.0f, 110.0f));
+	nodeCollection.addNode(sf::Vector2f(10.0f, 10.0f));
+	nodeCollection.addNode(sf::Vector2f(150.0f, 140.0f));
+
+
+	for (int i = 0; i < nodeCollection.nodes.size(); i++)
+	{
+		for (int j = i + 1; j < nodeCollection.nodes.size(); j++)
+		{
+			edgeCollection.addEdge(nodeCollection.nodes[i], nodeCollection.nodes[j]);
+		}
+	}
 
 	bool leftclicked = false;
 	bool rightClicked = false;
@@ -52,9 +69,14 @@ int main()
 			}
 			if (leftclicked)
 			{
-				pos.x -= (int)currentNode->getCircleShape().getRadius();
-				pos.y -= (int)currentNode->getCircleShape().getRadius();
-				currentNode->setPosition((sf::Vector2f)pos);
+				
+				if (pos.x > 0 && pos.x < WINDOW_WIDTH && pos.y > 0 && pos.y < WINDOW_HEIGHT)
+				{
+					pos.x -= (int)currentNode->getCircleShape().getRadius();
+					pos.y -= (int)currentNode->getCircleShape().getRadius();
+					currentNode->setPosition((sf::Vector2f)pos);
+				}
+				
 			}
 		}
 		else
