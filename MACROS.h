@@ -13,4 +13,4 @@ constexpr unsigned int NODE_FONT_SIZE = 25;
 constexpr float NODE_THICKNESS = 2.3f;
 constexpr float NODE_RADIUS = 25;
 constexpr float EDGE_THICKNESS = 1.0f;
-constexpr unsigned int DELAY = 1000;
+constexpr unsigned int DELAY = 500;

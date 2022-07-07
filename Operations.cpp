@@ -13,17 +13,14 @@ void recursiveDFS(Graph* graph, Node* node, std::unordered_set<int>& visited)
 		if (!visited.contains(adjNode->id))
 		{
 			recursiveDFS(graph, adjNode, visited);
-		}
-		if (visited.contains(adjNode->id))
-		{
-			node->setFillColor(BLUE);
+			node->setFillColor(GREEN);
 			std::this_thread::sleep_for(std::chrono::milliseconds(DELAY));
 			node->setFillColor(BLACK);
-
 		}
-				
 	}
 	
+	
+
 }
 
 void DFS(Graph* graph)

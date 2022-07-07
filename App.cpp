@@ -1,21 +1,37 @@
 #include <iostream>
 #include <SFML/Graphics.hpp>
 #include <thread>
+#include <atomic>
 #include "MACROS.h"
 #include "Node.h"
 #include "Edge.h"
 #include "Graph.h"
 #include "Operations.h"
 
+bool finished = false;
+
+void foo()
+{
+	log("in foo");
+	finished = true;
+}
+
+void bar()
+{
+	log("in bar");
+}
+
 
 int main()
 {
+
+	std::atomic<bool> done(true);
+
 	sf::ContextSettings settings;
 	settings.antialiasingLevel = 16;
 	sf::RenderWindow window(sf::VideoMode(WINDOW_WIDTH, WINDOW_HEIGHT), "VisualGraph", sf::Style::Close | sf::Style::Titlebar, settings);
 	sf::RenderTexture edgeRenderer;
 
-	edgeRenderer.create(WINDOW_WIDTH, WINDOW_HEIGHT);
 	NodeCollection* nodeCollection = new NodeCollection();
 	EdgeCollection* edgeCollection = new EdgeCollection();
 
@@ -27,6 +43,7 @@ int main()
 	bool leftclicked = false;
 	bool rightClicked = false;
 	bool spacePressed = false;
+	bool enterPressed = false;
 	bool firedThread = false;
 	bool connectingNodes = false;
 	bool mPressed = false;
@@ -163,19 +180,32 @@ int main()
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space))
 		{
 
-			if (!spacePressed)
+			if (!spacePressed && done)
 			{
-				if (!firedThread)
-				{
-					dfsThread = std::thread(DFS, graph);
-					firedThread = true;
-				}
+				done = false;
+				dfsThread = std::thread([&]() { DFS(graph); done = true; });
+				dfsThread.detach();
 				spacePressed = true;
 			}
 		}
 		else
 		{
 			spacePressed = false;
+		}
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Enter))
+		{
+
+			if (!enterPressed && done)
+			{
+				done = false;
+				dfsThread = std::thread([&]() { BFS(graph); done = true; });
+				dfsThread.detach();
+				enterPressed = true;
+			}
+		}
+		else
+		{
+			enterPressed = false;
 		}
 
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::M))
@@ -209,12 +239,8 @@ int main()
 			window.draw(edge);
 		}
 		window.display();
-		
 	}
-	if (firedThread)
-	{
-		dfsThread.join();
-	}
+	
 	delete (graph);
 	delete (edgeCollection);
 	delete (nodeCollection);
