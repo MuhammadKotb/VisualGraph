@@ -144,19 +144,21 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="App.cpp" />
-    <ClCompile Include="Controller.cpp" />
     <ClCompile Include="Edge.cpp" />
     <ClCompile Include="Graph.cpp" />
     <ClCompile Include="Node.cpp" />
+    <ClCompile Include="OperationController.cpp" />
     <ClCompile Include="Operations.cpp" />
+    <ClCompile Include="userController.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Controller.h" />
     <ClInclude Include="Edge.h" />
     <ClInclude Include="Graph.h" />
     <ClInclude Include="MACROS.h" />
     <ClInclude Include="Node.h" />
+    <ClInclude Include="OperationController.h" />
     <ClInclude Include="Operations.h" />
+    <ClInclude Include="userController.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
