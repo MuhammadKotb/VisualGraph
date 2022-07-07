@@ -1,13 +1,18 @@
 #include <iostream>
 #include <SFML/Graphics.hpp>
+#include <thread>
 #include "MACROS.h"
 #include "Node.h"
 #include "Edge.h"
+#include "Graph.h"
+#include "Operations.h"
+
+
 int main()
 {
 	sf::ContextSettings settings;
 	settings.antialiasingLevel = 8;
-	sf::RenderWindow window(sf::VideoMode(WINDOW_WIDTH, WINDOW_HEIGHT), "VisualGraph", sf::Style::Close | sf::Style::Titlebar | sf::Style::Fullscreen, settings);
+	sf::RenderWindow window(sf::VideoMode(WINDOW_WIDTH, WINDOW_HEIGHT), "VisualGraph", sf::Style::Close | sf::Style::Titlebar, settings);
 
 	NodeCollection nodeCollection;
 	EdgeCollection edgeCollection;
@@ -21,20 +26,23 @@ int main()
 	nodeCollection.addNode(sf::Vector2f(150.0f, 140.0f));
 
 
-	for (int i = 0; i < nodeCollection.nodes.size(); i++)
+	for (unsigned int i = 0; i < nodeCollection.nodes.size(); i++)
 	{
-		for (int j = i + 1; j < nodeCollection.nodes.size(); j++)
+		for (unsigned int j = i + 1; j < nodeCollection.nodes.size(); j++)
 		{
 			edgeCollection.addEdge(nodeCollection.nodes[i], nodeCollection.nodes[j]);
 		}
 	}
+	Graph* graph = new Graph(edgeCollection);
 
+	
 	bool leftclicked = false;
 	bool rightClicked = false;
 	bool spacePressed = false;
+	bool firedThread = false;
 	Node* currentNode = nullptr;
 
-
+	std::thread dfsThread;
 
 	while (window.isOpen())
 	{
@@ -111,11 +119,20 @@ int main()
 		}
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space))
 		{
-			if (!spacePressed)
+			/*if (!spacePressed)
 			{
 				edgeCollection.addEdge(nodeCollection.nodes[0], nodeCollection.nodes[1]);
 				edgeCollection.addEdge(nodeCollection.nodes[0], nodeCollection.nodes[2]);
 				edgeCollection.addEdge(nodeCollection.nodes[1], nodeCollection.nodes[2]);
+				spacePressed = true;
+			}*/
+			if (!spacePressed)
+			{
+				if (!firedThread)
+				{
+					dfsThread = std::thread(DFS, graph);
+					firedThread = true;
+				}
 				spacePressed = true;
 			}
 
@@ -141,5 +158,17 @@ int main()
 		}
 		window.display();
 	}
+	if (firedThread)
+	{
+		dfsThread.join();
+	}
+
+
+
+
+	delete (graph);
+
+
+
 
 }

@@ -49,6 +49,11 @@ void Node::setTextPosition(sf::Vector2f position)
 	this->shape.idText->setPosition(position);
 }
 
+void Node::setFillColor(sf::Color color)
+{
+	this->shape.circle->setFillColor(color);
+}
+
 bool Node::inNode(sf::Vector2f position) const
 {
 	return position.x > this->shape.circle->getPosition().x && position.x <this->shape.circle->getPosition().x + this->shape.circle->getRadius() * 2

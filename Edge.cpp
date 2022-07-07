@@ -1,7 +1,7 @@
 #include "Edge.h"
 
 
-Edge::Edge(const Node* node1, const Node* node2)
+Edge::Edge( Node*  node1,  Node*  node2)
 {
 	this->nodes.node1 = node1;
 	this->nodes.node2 = node2;
@@ -12,6 +12,7 @@ Edge::Edge(const Node* node1, const Node* node2)
 	sf::Vector2f node2Pos = node2->getCircleShape().getPosition();
 	const float node1Radius = node1->getCircleShape().getRadius();
 	const float node2Radius = node2->getCircleShape().getRadius();
+
 	const float centerX1 = node1Pos.x + node1Radius;
 	const float centerY1 = node1Pos.y + node1Radius;
 	const float centerX2 = node2Pos.x + node2Radius;
@@ -50,6 +51,11 @@ void Edge::updatePosition()
 
 }
 
+const Nodes Edge::getNodes() const
+{
+	return this->nodes;
+}
+
 const sf::VertexArray& Edge::getVertexArray() const
 {
 	return *this->shape.line;
@@ -68,7 +74,7 @@ EdgeCollection::~EdgeCollection()
 	}
 }
 
-void EdgeCollection::addEdge(const Node* node1, const Node* node2)
+void EdgeCollection::addEdge(Node* node1, Node* node2)
 {
 	Edge* edge = new Edge(node1, node2);
 	this->edges.push_back(edge);

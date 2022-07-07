@@ -13,6 +13,7 @@ public:
 	void setPosition(sf::Vector2f position);
 	void setRadius(float radius);
 	void setTextPosition(sf::Vector2f position);
+	void setFillColor(sf::Color color);
 	bool inNode(sf::Vector2f position) const;
 
 

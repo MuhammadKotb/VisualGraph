@@ -145,12 +145,16 @@
   <ItemGroup>
     <ClCompile Include="App.cpp" />
     <ClCompile Include="Edge.cpp" />
+    <ClCompile Include="Graph.cpp" />
     <ClCompile Include="Node.cpp" />
+    <ClCompile Include="Operations.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Edge.h" />
+    <ClInclude Include="Graph.h" />
     <ClInclude Include="MACROS.h" />
     <ClInclude Include="Node.h" />
+    <ClInclude Include="Operations.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
