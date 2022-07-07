@@ -15,6 +15,8 @@ public:
 	void setTextPosition(sf::Vector2f position);
 	void setFillColor(sf::Color color);
 	bool inNode(sf::Vector2f position) const;
+	sf::Vector2f getCenter() const;
+
 
 
 private:

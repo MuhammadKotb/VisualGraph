@@ -78,3 +78,8 @@ void NodeCollection::addNode(sf::Vector2f position)
 	Node* node = new Node(position, this->nodes.size());
 	this->nodes.push_back(node);
 }
+
+sf::Vector2f Node::getCenter() const
+{
+	return sf::Vector2f(this->shape.circle->getPosition().x + this->shape.circle->getRadius(), this->shape.circle->getPosition().y + this->shape.circle->getRadius());
+}

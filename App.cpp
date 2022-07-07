@@ -13,31 +13,13 @@ int main()
 	sf::ContextSettings settings;
 	settings.antialiasingLevel = 16;
 	sf::RenderWindow window(sf::VideoMode(WINDOW_WIDTH, WINDOW_HEIGHT), "VisualGraph", sf::Style::Close | sf::Style::Titlebar, settings);
+	sf::RenderTexture edgeRenderer;
 
-	NodeCollection nodeCollection;
-	EdgeCollection edgeCollection;
+	edgeRenderer.create(WINDOW_WIDTH, WINDOW_HEIGHT);
+	NodeCollection* nodeCollection = new NodeCollection();
+	EdgeCollection* edgeCollection = new EdgeCollection();
 
-
-	nodeCollection.addNode(sf::Vector2f(60.0f, 60.0f));
-	nodeCollection.addNode(sf::Vector2f(120.0f, 60.0f));
-	nodeCollection.addNode(sf::Vector2f(150.0f, 100.0f));
-	nodeCollection.addNode(sf::Vector2f(120.0f, 110.0f));
-	nodeCollection.addNode(sf::Vector2f(10.0f, 10.0f));
-	nodeCollection.addNode(sf::Vector2f(150.0f, 140.0f));
-	nodeCollection.addNode(sf::Vector2f(150.0f, 140.0f));
-	nodeCollection.addNode(sf::Vector2f(150.0f, 140.0f));
-	nodeCollection.addNode(sf::Vector2f(150.0f, 140.0f));
-
-	edgeCollection.addEdge(nodeCollection.nodes[0], nodeCollection.nodes[1]);
-	edgeCollection.addEdge(nodeCollection.nodes[0], nodeCollection.nodes[2]);
-	edgeCollection.addEdge(nodeCollection.nodes[0], nodeCollection.nodes[3]);
-	edgeCollection.addEdge(nodeCollection.nodes[0], nodeCollection.nodes[4]);
-	edgeCollection.addEdge(nodeCollection.nodes[1], nodeCollection.nodes[5]);
-	edgeCollection.addEdge(nodeCollection.nodes[1], nodeCollection.nodes[6]);
-	edgeCollection.addEdge(nodeCollection.nodes[2], nodeCollection.nodes[7]);
-	edgeCollection.addEdge(nodeCollection.nodes[2], nodeCollection.nodes[8]);
-
-
+	
 	
 	Graph* graph = new Graph(edgeCollection);
 
@@ -46,9 +28,15 @@ int main()
 	bool rightClicked = false;
 	bool spacePressed = false;
 	bool firedThread = false;
+	bool connectingNodes = false;
+	bool mPressed = false;
 	Node* currentNode = nullptr;
 
 	std::thread dfsThread;
+
+	Node* node1 = nullptr;
+	Node* node2 = nullptr;
+	sf::VertexArray edge(sf::Lines, 2);
 
 	while (window.isOpen())
 	{
@@ -71,7 +59,7 @@ int main()
 
 			if (!leftclicked)
 			{
-				for (const auto& node : nodeCollection.nodes)
+				for (const auto& node : nodeCollection->nodes)
 				{
 					leftclicked = node->inNode((sf::Vector2f)pos);
 					if (leftclicked)
@@ -83,66 +71,127 @@ int main()
 			}
 			if (leftclicked)
 			{
-				
+
 				if (pos.x > 0 && pos.x < WINDOW_WIDTH && pos.y > 0 && pos.y < WINDOW_HEIGHT)
 				{
 					pos.x -= (int)currentNode->getCircleShape().getRadius();
 					pos.y -= (int)currentNode->getCircleShape().getRadius();
 					currentNode->setPosition((sf::Vector2f)pos);
 				}
-				
 			}
 		}
 		else
 		{
 			leftclicked = false;
 		}
+		
 		if (sf::Mouse::isButtonPressed(sf::Mouse::Right))
 		{
 			sf::Vector2i pos = sf::Mouse::getPosition(window);
+		
+			
+		/*	if (!rightClicked)
+			{
+				for (unsigned int i = 0; i < nodeCollection->nodes.size(); i++)
+				{
+					if (nodeCollection->nodes[i]->inNode((sf::Vector2f)pos))
+					{
+						delete nodeCollection->nodes[i];
+						nodeCollection->nodes.erase(nodeCollection->nodes.begin() + i);
+						rightClicked = true;
+						break;
+					}
+				}
+				if (!rightClicked)
+				{
+					nodeCollection->addNode(sf::Vector2f(60.0f, 60.0f));
+					rightClicked = true;
+				}
+			}*/
+
 			if (!rightClicked)
 			{
-				for (unsigned int i = 0; i < nodeCollection.nodes.size(); i++)
+				for (unsigned int i = 0; i < nodeCollection->nodes.size(); i++)
 				{
-					if (nodeCollection.nodes[i]->inNode((sf::Vector2f)pos))
+					if (nodeCollection->nodes[i]->inNode((sf::Vector2f)pos))
 					{
-						delete nodeCollection.nodes[i];
-						nodeCollection.nodes.erase(nodeCollection.nodes.begin() + i);
+						node1 = nodeCollection->nodes[i];
 						rightClicked = true;
 						break;
 					}
 				}
 			}
-			if (!rightClicked)
+			if (node1)
 			{
-				nodeCollection.addNode(sf::Vector2f(60.0f, 60.0f));
-				rightClicked = true;
+				connectingNodes = true;
+				edge[0].position = node1->getCenter();
+				edge[1].position = (sf::Vector2f)pos;
 			}
 		}
 		else
 		{
+			if (rightClicked)
+			{
+				sf::Vector2i pos = sf::Mouse::getPosition(window);
+
+				if (node1)
+				{
+					for (unsigned int i = 0; i < nodeCollection->nodes.size(); i++)
+					{
+						if (nodeCollection->nodes[i]->inNode((sf::Vector2f)pos))
+						{
+							node2 = nodeCollection->nodes[i];
+							rightClicked = true;
+							break;
+						}
+					}
+				}
+				if (node1 && node2)
+				{
+					if (node1 != node2)
+					{
+						edgeCollection->addEdge(node1, node2);
+					
+					}
+				}
+			}
+			node1 = nullptr;
+			node2 = nullptr;
+			connectingNodes = false;
 			rightClicked = false;
 		}
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space))
 		{
-			
+
 			if (!spacePressed)
 			{
 				if (!firedThread)
 				{
-					dfsThread = std::thread(BFS, graph);
+					dfsThread = std::thread(DFS, graph);
 					firedThread = true;
 				}
 				spacePressed = true;
 			}
-
 		}
 		else
 		{
 			spacePressed = false;
 		}
+
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::M))
+		{
+			if (!mPressed)
+			{
+				nodeCollection->addNode(sf::Vector2f(60.0f, 60.0f));
+				mPressed = true;
+			}
+		}
+		else
+		{
+			mPressed = false;
+		}
 		window.clear();
-		for (const auto& node : nodeCollection.nodes)
+		for (const auto& node : nodeCollection->nodes)
 		{
 			window.draw(node->getCircleShape());
 			sf::Vector2f nodePos = node->getCircleShape().getPosition();
@@ -150,25 +199,23 @@ int main()
 			node->setTextPosition(sf::Vector2f(nodePos.x + radius / 2 + 3.5f, nodePos.y + radius / 2 - 1.6f));
 			window.draw(node->getIdText());
 		}
-
-		for (const auto& edge : edgeCollection.edges)
+		for (const auto& edge : edgeCollection->edges)
 		{
 			edge->updatePosition();
 			window.draw(edge->getVertexArray());
 		}
+		if (connectingNodes)
+		{
+			window.draw(edge);
+		}
 		window.display();
+		
 	}
 	if (firedThread)
 	{
 		dfsThread.join();
 	}
-
-
-
-
 	delete (graph);
-
-
-
-
+	delete (edgeCollection);
+	delete (nodeCollection);
 }

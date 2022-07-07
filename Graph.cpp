@@ -1,12 +1,28 @@
 #include "Graph.h"
 #include "MACROS.h"
 
-Graph::Graph(const EdgeCollection& edgeCollection)
+
+
+
+Graph::Graph(EdgeCollection* edgeCollection)
 {
-	log("Size  : " << " " << edgeCollection.edges.size());
-	for (unsigned int i = 0; i < edgeCollection.edges.size(); i++)
+	this->edgeCollection = edgeCollection;
+	update();
+}
+
+Graph::~Graph()
+{
+
+}
+
+void Graph::update()
+{
+
+	this->adjacentList.clear();
+
+	for (unsigned int i = 0; i < this->edgeCollection->edges.size(); i++)
 	{
-		Edge* edge = edgeCollection.edges[i];
+		Edge* edge = this->edgeCollection->edges[i];
 		Node* node1 = edge->getNodes().node1;
 		Node* node2 = edge->getNodes().node2;
 		if (this->adjacentList.contains(node1))
@@ -30,9 +46,6 @@ Graph::Graph(const EdgeCollection& edgeCollection)
 	}
 }
 
-Graph::~Graph()
-{
 
-}
 
 

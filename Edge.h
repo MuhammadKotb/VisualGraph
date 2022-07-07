@@ -35,5 +35,5 @@ struct EdgeCollection
 	std::vector<Edge*> edges;
 	EdgeCollection();
 	~EdgeCollection();
-	void addEdge( Node*  node1,  Node*  node2);
+	void addEdge(Node*  node1,  Node*  node2);
 };

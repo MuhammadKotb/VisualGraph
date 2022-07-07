@@ -8,18 +8,10 @@ Edge::Edge( Node*  node1,  Node*  node2)
 
 	this->shape.line = new sf::VertexArray(sf::Lines, 2);
 
-	sf::Vector2f node1Pos = node1->getCircleShape().getPosition();
-	sf::Vector2f node2Pos = node2->getCircleShape().getPosition();
-	const float node1Radius = node1->getCircleShape().getRadius();
-	const float node2Radius = node2->getCircleShape().getRadius();
 
-	const float centerX1 = node1Pos.x + node1Radius;
-	const float centerY1 = node1Pos.y + node1Radius;
-	const float centerX2 = node2Pos.x + node2Radius;
-	const float centerY2 = node2Pos.y + node2Radius;
 
-	(*this->shape.line)[0].position = sf::Vector2f(centerX1, centerY1);
-	(*this->shape.line)[1].position = sf::Vector2f(centerX2, centerY2);
+	(*this->shape.line)[0].position = node1->getCenter();
+	(*this->shape.line)[1].position = node2->getCenter();
 	
 
 	for (unsigned int i = 0; i < 2; i++)
@@ -36,19 +28,9 @@ Edge::~Edge()
 
 void Edge::updatePosition()
 {
-	sf::Vector2f node1Pos = this->nodes.node1->getCircleShape().getPosition();
-	sf::Vector2f node2Pos = this->nodes.node2->getCircleShape().getPosition();
-	const float node1Radius = this->nodes.node1->getCircleShape().getRadius();
-	const float node2Radius = this->nodes.node2->getCircleShape().getRadius();
 
-	const float centerX1 = node1Pos.x + node1Radius;
-	const float centerY1 = node1Pos.y + node1Radius;
-	const float centerX2 = node2Pos.x + node2Radius;
-	const float centerY2 = node2Pos.y + node2Radius;
-
-	(*this->shape.line)[0].position = sf::Vector2f(centerX1, centerY1);
-	(*this->shape.line)[1].position = sf::Vector2f(centerX2, centerY2);
-
+	(*this->shape.line)[0].position = this->nodes.node1->getCenter();
+	(*this->shape.line)[1].position = this->nodes.node2->getCenter();
 }
 
 const Nodes Edge::getNodes() const

@@ -10,8 +10,11 @@ class Graph
 {
 public:
 	std::unordered_map<Node*, std::vector<Node*>> adjacentList;
-	Graph(const EdgeCollection& edgeCollection);
+	Graph(EdgeCollection* edgeCollection);
 	~Graph();
+	void update();
 
+private:
+	EdgeCollection* edgeCollection;
 };
 
