@@ -4,6 +4,8 @@
 #define RED sf::Color::Red
 #define BLACK sf::Color::Black
 #define WHITE sf::Color::White
+#define GREEN sf::Color::Green
+#define BLUE sf::Color::Blue
 #define FIRA_CODE_FONT "assets\\FiraCode-Medium.ttf"
 constexpr unsigned int WINDOW_HEIGHT = 900;
 constexpr unsigned int WINDOW_WIDTH = 1600;

@@ -11,7 +11,7 @@
 int main()
 {
 	sf::ContextSettings settings;
-	settings.antialiasingLevel = 8;
+	settings.antialiasingLevel = 16;
 	sf::RenderWindow window(sf::VideoMode(WINDOW_WIDTH, WINDOW_HEIGHT), "VisualGraph", sf::Style::Close | sf::Style::Titlebar, settings);
 
 	NodeCollection nodeCollection;
@@ -24,15 +24,21 @@ int main()
 	nodeCollection.addNode(sf::Vector2f(120.0f, 110.0f));
 	nodeCollection.addNode(sf::Vector2f(10.0f, 10.0f));
 	nodeCollection.addNode(sf::Vector2f(150.0f, 140.0f));
+	nodeCollection.addNode(sf::Vector2f(150.0f, 140.0f));
+	nodeCollection.addNode(sf::Vector2f(150.0f, 140.0f));
+	nodeCollection.addNode(sf::Vector2f(150.0f, 140.0f));
+
+	edgeCollection.addEdge(nodeCollection.nodes[0], nodeCollection.nodes[1]);
+	edgeCollection.addEdge(nodeCollection.nodes[0], nodeCollection.nodes[2]);
+	edgeCollection.addEdge(nodeCollection.nodes[0], nodeCollection.nodes[3]);
+	edgeCollection.addEdge(nodeCollection.nodes[0], nodeCollection.nodes[4]);
+	edgeCollection.addEdge(nodeCollection.nodes[1], nodeCollection.nodes[5]);
+	edgeCollection.addEdge(nodeCollection.nodes[1], nodeCollection.nodes[6]);
+	edgeCollection.addEdge(nodeCollection.nodes[2], nodeCollection.nodes[7]);
+	edgeCollection.addEdge(nodeCollection.nodes[2], nodeCollection.nodes[8]);
 
 
-	for (unsigned int i = 0; i < nodeCollection.nodes.size(); i++)
-	{
-		for (unsigned int j = i + 1; j < nodeCollection.nodes.size(); j++)
-		{
-			edgeCollection.addEdge(nodeCollection.nodes[i], nodeCollection.nodes[j]);
-		}
-	}
+	
 	Graph* graph = new Graph(edgeCollection);
 
 	
@@ -119,18 +125,12 @@ int main()
 		}
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space))
 		{
-			/*if (!spacePressed)
-			{
-				edgeCollection.addEdge(nodeCollection.nodes[0], nodeCollection.nodes[1]);
-				edgeCollection.addEdge(nodeCollection.nodes[0], nodeCollection.nodes[2]);
-				edgeCollection.addEdge(nodeCollection.nodes[1], nodeCollection.nodes[2]);
-				spacePressed = true;
-			}*/
+			
 			if (!spacePressed)
 			{
 				if (!firedThread)
 				{
-					dfsThread = std::thread(DFS, graph);
+					dfsThread = std::thread(BFS, graph);
 					firedThread = true;
 				}
 				spacePressed = true;

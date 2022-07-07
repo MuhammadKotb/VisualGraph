@@ -1,7 +1,7 @@
 #include "Operations.h"
 #include <thread>
 #include <chrono>
-
+#include <queue>
 void recursiveDFS(Graph* graph, Node* node, std::unordered_set<int>& visited)
 {
 	visited.insert(node->id);
@@ -14,8 +14,13 @@ void recursiveDFS(Graph* graph, Node* node, std::unordered_set<int>& visited)
 		{
 			recursiveDFS(graph, adjNode, visited);
 		}
+		
 	}
+	node->setFillColor(BLUE);
+	std::this_thread::sleep_for(std::chrono::milliseconds(1000));
+	node->setFillColor(BLACK);
 }
+
 void DFS(Graph* graph)
 {
 	std::unordered_set<int> visited;
@@ -26,7 +31,54 @@ void DFS(Graph* graph)
 		{
 			recursiveDFS(graph, kv.first, visited);
 		}
+
 	}
 }
 
+
+void recursiveBFS(Graph* graph, Node* node, std::unordered_set<int>& visited, std::queue<Node*>& adjNodes)
+{
+
+	visited.insert(node->id);
+	if (!adjNodes.empty())
+	{
+		adjNodes.pop();
+	}
+	node->setFillColor(RED);
+	std::this_thread::sleep_for(std::chrono::milliseconds(1000));
+	node->setFillColor(BLACK);
+	for (const auto& adjNode : graph->adjacentList.at(node))
+	{
+		if (!visited.contains(adjNode->id))
+		{
+			adjNodes.push(adjNode);
+		}
+	}
+
+	if (!adjNodes.empty())
+	{
+		recursiveBFS(graph, adjNodes.front(), visited, adjNodes);
+	}
+
+	
+}
+
+
+void BFS(Graph* graph)
+{
+	std::queue<Node*> ajdNodes;
+
+	std::unordered_set<int> visited;
+
+	
+	for (const auto& kv : graph->adjacentList)
+	{
+		if (!visited.contains(kv.first->id))
+		{
+			recursiveBFS(graph, kv.first, visited, ajdNodes);
+		}
+
+	}
+
+}
 
