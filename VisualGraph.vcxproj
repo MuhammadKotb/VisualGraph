@@ -149,7 +149,7 @@
     <ClCompile Include="Node.cpp" />
     <ClCompile Include="OperationController.cpp" />
     <ClCompile Include="Operations.cpp" />
-    <ClCompile Include="userController.cpp" />
+    <ClCompile Include="UserController.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Edge.h" />
@@ -158,7 +158,7 @@
     <ClInclude Include="Node.h" />
     <ClInclude Include="OperationController.h" />
     <ClInclude Include="Operations.h" />
-    <ClInclude Include="userController.h" />
+    <ClInclude Include="UserController.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

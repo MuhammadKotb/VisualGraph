@@ -33,7 +33,7 @@
     <ClCompile Include="OperationController.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="userController.cpp">
+    <ClCompile Include="UserController.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -56,7 +56,7 @@
     <ClInclude Include="OperationController.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="userController.h">
+    <ClInclude Include="UserController.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

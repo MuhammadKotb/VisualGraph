@@ -7,19 +7,26 @@
 #include "Edge.h"
 #include "Graph.h"
 #include "Operations.h"
+#include "UserController.h"
 
-bool finished = false;
-
-void foo()
-{
-	log("in foo");
-	finished = true;
-}
-
-void bar()
-{
-	log("in bar");
-}
+/*	if (!rightClicked)
+		{
+			for (unsigned int i = 0; i < nodeCollection->nodes.size(); i++)
+			{
+				if (nodeCollection->nodes[i]->inNode((sf::Vector2f)pos))
+				{
+					delete nodeCollection->nodes[i];
+					nodeCollection->nodes.erase(nodeCollection->nodes.begin() + i);
+					rightClicked = true;
+					break;
+				}
+			}
+			if (!rightClicked)
+			{
+				nodeCollection->addNode(sf::Vector2f(60.0f, 60.0f));
+				rightClicked = true;
+			}
+		}*/
 
 
 int main()
@@ -39,21 +46,15 @@ int main()
 	
 	Graph* graph = new Graph(edgeCollection);
 
+	UserController* userController = new UserController(edgeCollection, nodeCollection, graph);
 	
-	bool leftclicked = false;
-	bool rightClicked = false;
 	bool spacePressed = false;
 	bool enterPressed = false;
 	bool firedThread = false;
-	bool connectingNodes = false;
-	bool mPressed = false;
-	Node* currentNode = nullptr;
 
 	std::thread dfsThread;
 
-	Node* node1 = nullptr;
-	Node* node2 = nullptr;
-	sf::VertexArray edge(sf::Lines, 2);
+
 
 	while (window.isOpen())
 	{
@@ -70,113 +71,11 @@ int main()
 		{
 			window.close();
 		}
-		if (sf::Mouse::isButtonPressed(sf::Mouse::Left))
-		{
-			sf::Vector2i pos = sf::Mouse::getPosition(window);
 
-			if (!leftclicked)
-			{
-				for (const auto& node : nodeCollection->nodes)
-				{
-					leftclicked = node->inNode((sf::Vector2f)pos);
-					if (leftclicked)
-					{
-						currentNode = node;
-						break;
-					}
-				}
-			}
-			if (leftclicked)
-			{
 
-				if (pos.x > 0 && pos.x < WINDOW_WIDTH && pos.y > 0 && pos.y < WINDOW_HEIGHT)
-				{
-					pos.x -= (int)currentNode->getCircleShape().getRadius();
-					pos.y -= (int)currentNode->getCircleShape().getRadius();
-					currentNode->setPosition((sf::Vector2f)pos);
-				}
-			}
-		}
-		else
-		{
-			leftclicked = false;
-		}
+		userController->listenNodeMovement(window);
+		userController->listenEdgeCreation(window);
 		
-		if (sf::Mouse::isButtonPressed(sf::Mouse::Right))
-		{
-			sf::Vector2i pos = sf::Mouse::getPosition(window);
-		
-			
-		/*	if (!rightClicked)
-			{
-				for (unsigned int i = 0; i < nodeCollection->nodes.size(); i++)
-				{
-					if (nodeCollection->nodes[i]->inNode((sf::Vector2f)pos))
-					{
-						delete nodeCollection->nodes[i];
-						nodeCollection->nodes.erase(nodeCollection->nodes.begin() + i);
-						rightClicked = true;
-						break;
-					}
-				}
-				if (!rightClicked)
-				{
-					nodeCollection->addNode(sf::Vector2f(60.0f, 60.0f));
-					rightClicked = true;
-				}
-			}*/
-
-			if (!rightClicked)
-			{
-				for (unsigned int i = 0; i < nodeCollection->nodes.size(); i++)
-				{
-					if (nodeCollection->nodes[i]->inNode((sf::Vector2f)pos))
-					{
-						node1 = nodeCollection->nodes[i];
-						rightClicked = true;
-						break;
-					}
-				}
-			}
-			if (node1)
-			{
-				connectingNodes = true;
-				edge[0].position = node1->getCenter();
-				edge[1].position = (sf::Vector2f)pos;
-			}
-		}
-		else
-		{
-			if (rightClicked)
-			{
-				sf::Vector2i pos = sf::Mouse::getPosition(window);
-
-				if (node1)
-				{
-					for (unsigned int i = 0; i < nodeCollection->nodes.size(); i++)
-					{
-						if (nodeCollection->nodes[i]->inNode((sf::Vector2f)pos))
-						{
-							node2 = nodeCollection->nodes[i];
-							rightClicked = true;
-							break;
-						}
-					}
-				}
-				if (node1 && node2)
-				{
-					if (node1 != node2)
-					{
-						edgeCollection->addEdge(node1, node2);
-					
-					}
-				}
-			}
-			node1 = nullptr;
-			node2 = nullptr;
-			connectingNodes = false;
-			rightClicked = false;
-		}
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space))
 		{
 
@@ -208,18 +107,9 @@ int main()
 			enterPressed = false;
 		}
 
-		if (sf::Keyboard::isKeyPressed(sf::Keyboard::M))
-		{
-			if (!mPressed)
-			{
-				nodeCollection->addNode(sf::Vector2f(60.0f, 60.0f));
-				mPressed = true;
-			}
-		}
-		else
-		{
-			mPressed = false;
-		}
+		userController->listenNodeCreation(window);
+
+		
 		window.clear();
 		for (const auto& node : nodeCollection->nodes)
 		{
@@ -234,13 +124,14 @@ int main()
 			edge->updatePosition();
 			window.draw(edge->getVertexArray());
 		}
-		if (connectingNodes)
+		if (userController->connectingNodes)
 		{
-			window.draw(edge);
+			window.draw(userController->createdEdge);
 		}
 		window.display();
 	}
-	
+
+	delete(userController);
 	delete (graph);
 	delete (edgeCollection);
 	delete (nodeCollection);
