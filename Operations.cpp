@@ -18,8 +18,6 @@ void recursiveDFS(Graph* graph, Node* node, std::unordered_set<int>& visited)
 			node->setFillColor(BLACK);
 		}
 	}
-	
-	
 
 }
 
@@ -57,7 +55,10 @@ void recursiveBFS(Graph* graph, Node* node, std::unordered_set<int>& visited, st
 	}
 	if (!adjNodes.empty())
 	{
-		recursiveBFS(graph, adjNodes.front(), visited, adjNodes);
+		if (!visited.contains(adjNodes.front()->id))
+		{
+			recursiveBFS(graph, adjNodes.front(), visited, adjNodes);
+		}
 	}
 }
 

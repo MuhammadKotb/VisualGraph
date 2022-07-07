@@ -11,11 +11,12 @@ typedef struct Nodes {
 class Edge
 {
 public:
-
-	Edge( Node*  node1,  Node*  node2);
+	float weight;
+	Edge( Node*  node1,  Node*  node2, float weight);
 	~Edge();
 	void updatePosition();
 	const sf::VertexArray& getVertexArray() const;
+	const sf::Text& getWeightText() const;
 	const Nodes getNodes() const;
 
 
@@ -23,8 +24,10 @@ private:
 	
 	typedef struct Shape {
 		sf::VertexArray* line;
+		sf::Font* font;
+		sf::Text* weightText;
 	} Shape;
-
+	
 	Shape shape;
 	Nodes nodes;
 };
@@ -35,5 +38,5 @@ struct EdgeCollection
 	std::vector<Edge*> edges;
 	EdgeCollection();
 	~EdgeCollection();
-	void addEdge(Node*  node1,  Node*  node2);
+	void addEdge(Node* node1, Node* node2, float weight);
 };

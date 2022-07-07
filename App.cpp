@@ -123,6 +123,7 @@ int main()
 		{
 			edge->updatePosition();
 			window.draw(edge->getVertexArray());
+			window.draw(edge->getWeightText());
 		}
 		if (userController->connectingNodes)
 		{
