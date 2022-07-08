@@ -15,6 +15,7 @@ public:
 	void setTextPosition(sf::Vector2f position);
 	void setFillColor(sf::Color color);
 	bool inNode(sf::Vector2f position) const;
+	void updateIdText();
 	sf::Vector2f getCenter() const;
 
 
@@ -30,11 +31,12 @@ private:
 };
 
 
-struct NodeCollection
+struct NodeCollection : public sf::Drawable
 {
 	std::vector<Node*> nodes;
 	void addNode(sf::Vector2f position);
 	NodeCollection();
 	~NodeCollection();
+	virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const;
 };
 

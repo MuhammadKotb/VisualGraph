@@ -108,23 +108,10 @@ int main()
 		}
 
 		userController->listenNodeCreation(window);
-
 		
 		window.clear();
-		for (const auto& node : nodeCollection->nodes)
-		{
-			window.draw(node->getCircleShape());
-			sf::Vector2f nodePos = node->getCircleShape().getPosition();
-			const float radius = node->getCircleShape().getRadius();
-			node->setTextPosition(sf::Vector2f(nodePos.x + radius / 2 + 3.5f, nodePos.y + radius / 2 - 1.6f));
-			window.draw(node->getIdText());
-		}
-		for (const auto& edge : edgeCollection->edges)
-		{
-			edge->updatePosition();
-			window.draw(edge->getVertexArray());
-			window.draw(edge->getWeightText());
-		}
+		window.draw(*nodeCollection);
+		window.draw(*edgeCollection);
 		if (userController->connectingNodes)
 		{
 			window.draw(userController->createdEdge);

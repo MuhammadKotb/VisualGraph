@@ -60,6 +60,10 @@ bool Node::inNode(sf::Vector2f position) const
 		&& position.y > this->shape.circle->getPosition().y && position.y < this->shape.circle->getPosition().y + this->shape.circle->getRadius() * 2;
 }
 
+void Node::updateIdText()
+{
+}
+
 NodeCollection::NodeCollection()
 {
 
@@ -69,6 +73,18 @@ NodeCollection::~NodeCollection()
 	for (unsigned int i = 0; i < this->nodes.size(); i++)
 	{
 		delete (nodes[i]);
+	}
+}
+
+void NodeCollection::draw(sf::RenderTarget& target, sf::RenderStates states) const
+{
+	for (const auto& node : this->nodes)
+	{
+		target.draw(node->getCircleShape());
+		sf::Vector2f nodePos = node->getCircleShape().getPosition();
+		const float radius = node->getCircleShape().getRadius();
+		node->setTextPosition(sf::Vector2f(nodePos.x + radius / 2 + 3.5f, nodePos.y + radius / 2 - 1.6f));
+		target.draw(node->getIdText());
 	}
 }
 

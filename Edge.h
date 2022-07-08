@@ -33,10 +33,12 @@ private:
 };
 
 
-struct EdgeCollection
+struct EdgeCollection : public sf::Drawable
 {
 	std::vector<Edge*> edges;
 	EdgeCollection();
 	~EdgeCollection();
 	void addEdge(Node* node1, Node* node2, float weight = 1.0f);
+	virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const;
+
 };
