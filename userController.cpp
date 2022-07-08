@@ -118,7 +118,7 @@ void UserController::listenEdgeCreation(sf::RenderWindow& window)
 			{
 				if (fromNode != toNode)
 				{
-					edgeCollection->addEdge(fromNode, toNode, 611);
+					edgeCollection->addEdge(fromNode, toNode);
 
 				}
 			}

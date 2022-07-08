@@ -1,7 +1,7 @@
 #include "Edge.h"
 
 
-Edge::Edge(Node* node1, Node* node2, float weight = 1.0f) : weight(weight)
+Edge::Edge(Node* node1, Node* node2, float weight) : weight(weight)
 {
 	this->nodes.node1 = node1;
 	this->nodes.node2 = node2;
@@ -71,7 +71,7 @@ EdgeCollection::~EdgeCollection()
 	}
 }
 
-void EdgeCollection::addEdge(Node* node1, Node* node2, float weight = 1.0f)
+void EdgeCollection::addEdge(Node* node1, Node* node2, float weight)
 {
 	Edge* edge = new Edge(node1, node2, weight);
 	this->edges.push_back(edge);

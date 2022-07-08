@@ -12,7 +12,7 @@ class Edge
 {
 public:
 	float weight;
-	Edge( Node*  node1,  Node*  node2, float weight);
+	Edge(Node* node1,  Node* node2, float weight = 1.0f);
 	~Edge();
 	void updatePosition();
 	const sf::VertexArray& getVertexArray() const;
@@ -38,5 +38,5 @@ struct EdgeCollection
 	std::vector<Edge*> edges;
 	EdgeCollection();
 	~EdgeCollection();
-	void addEdge(Node* node1, Node* node2, float weight);
+	void addEdge(Node* node1, Node* node2, float weight = 1.0f);
 };
