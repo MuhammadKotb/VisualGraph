@@ -12,7 +12,7 @@ UserController::~UserController()
 
 }
 
-void UserController::listenNodeMovement(sf::RenderWindow& window)
+void UserController::controlNodeMovement(sf::RenderWindow& window)
 {
 
 	if (IS_MOUSE_CLICKED(LEFT_MOUSE))
@@ -49,7 +49,7 @@ void UserController::listenNodeMovement(sf::RenderWindow& window)
 
 }
 
-void UserController::listenNodeCreation(sf::RenderWindow& window)
+void UserController::controlNodeCreation(sf::RenderWindow& window)
 {
 	if (IS_KEY_PRESSED(M_KEY))
 	{
@@ -66,10 +66,9 @@ void UserController::listenNodeCreation(sf::RenderWindow& window)
 			this->mPressed = false;
 		}
 	}
-
 }
 
-void UserController::listenEdgeCreation(sf::RenderWindow& window)
+void UserController::controlEdgeCreation(sf::RenderWindow& window)
 {
 	if (IS_MOUSE_CLICKED(RIGHT_MOUSE))
 	{

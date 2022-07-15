@@ -1,13 +1,13 @@
 #include <iostream>
 #include <SFML/Graphics.hpp>
 #include <thread>
-#include <atomic>
 #include "MACROS.h"
 #include "Node.h"
 #include "Edge.h"
 #include "Graph.h"
 #include "Operations.h"
 #include "UserController.h"
+#include "OperationController.h"
 
 /*	if (!rightClicked)
 		{
@@ -32,27 +32,20 @@
 int main()
 {
 
-	std::atomic<bool> done(true);
-
 	sf::ContextSettings settings;
+
 	settings.antialiasingLevel = 16;
 	sf::RenderWindow window(sf::VideoMode(WINDOW_WIDTH, WINDOW_HEIGHT), "VisualGraph", sf::Style::Close | sf::Style::Titlebar, settings);
-	sf::RenderTexture edgeRenderer;
 
 	NodeCollection* nodeCollection = new NodeCollection();
+
 	EdgeCollection* edgeCollection = new EdgeCollection();
 
-	
-	
 	Graph* graph = new Graph(edgeCollection);
 
 	UserController* userController = new UserController(edgeCollection, nodeCollection, graph);
-	
-	bool spacePressed = false;
-	bool enterPressed = false;
-	bool firedThread = false;
 
-	std::thread dfsThread;
+	OperationController* operationController = new OperationController(graph);
 
 
 
@@ -73,42 +66,12 @@ int main()
 		}
 
 
-		userController->listenNodeMovement(window);
-		userController->listenEdgeCreation(window);
+		userController->controlNodeMovement(window);
+		userController->controlEdgeCreation(window);
+		userController->controlNodeCreation(window);
 		
-		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space))
-		{
-
-			if (!spacePressed && done)
-			{
-				done = false;
-				dfsThread = std::thread([&]() { DFS(graph); done = true; });
-				dfsThread.detach();
-				spacePressed = true;
-			}
-		}
-		else
-		{
-			spacePressed = false;
-		}
-		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Enter))
-		{
-
-			if (!enterPressed && done)
-			{
-				done = false;
-				dfsThread = std::thread([&]() { BFS(graph); done = true; });
-				dfsThread.detach();
-				enterPressed = true;
-			}
-		}
-		else
-		{
-			enterPressed = false;
-		}
-
-		userController->listenNodeCreation(window);
-		
+		operationController->controlDFS();
+		operationController->controlBFS();
 		window.clear();
 		window.draw(*nodeCollection);
 		window.draw(*edgeCollection);
@@ -120,6 +83,7 @@ int main()
 	}
 
 	delete(userController);
+	delete(operationController);
 	delete (graph);
 	delete (edgeCollection);
 	delete (nodeCollection);

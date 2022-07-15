@@ -3,14 +3,9 @@
 #include "Edge.h"
 #include "Graph.h"
 #include <SFML/Graphics.hpp>
+#include "MACROS.h"
 
-#define LEFT_MOUSE sf::Mouse::Left
-#define RIGHT_MOUSE sf::Mouse::Right
-#define SPACE_KEY sf::Keyboard::Space
-#define ENTER_KEY sf::Keyboard::Enter
-#define M_KEY sf::Keyboard::M
-#define IS_MOUSE_CLICKED sf::Mouse::isButtonPressed
-#define IS_KEY_PRESSED sf::Keyboard::isKeyPressed
+
 class UserController
 {
 public:
@@ -29,8 +24,8 @@ public:
 	sf::VertexArray createdEdge;
 	UserController(EdgeCollection* edgeCollection, NodeCollection* nodeCollection, Graph* graph);
 	~UserController();
-	void listenNodeCreation(sf::RenderWindow& window);
-	void listenEdgeCreation(sf::RenderWindow& window);
-	void listenNodeMovement(sf::RenderWindow& window);
+	void controlNodeCreation(sf::RenderWindow& window);
+	void controlEdgeCreation(sf::RenderWindow& window);
+	void controlNodeMovement(sf::RenderWindow& window);
 };
 
