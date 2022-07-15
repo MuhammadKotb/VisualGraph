@@ -39,17 +39,33 @@ int main()
 
 	NodeCollection* nodeCollection = new NodeCollection();
 
+	nodeCollection->addNode(sf::Vector2f(10.0f, 15.0f));
+	nodeCollection->addNode(sf::Vector2f(10.0f, 15.0f));
+	nodeCollection->addNode(sf::Vector2f(10.0f, 15.0f));
+	nodeCollection->addNode(sf::Vector2f(10.0f, 15.0f));
+	nodeCollection->addNode(sf::Vector2f(10.0f, 15.0f));
+	nodeCollection->addNode(sf::Vector2f(150.0f, 50.0f));
+	nodeCollection->addNode(sf::Vector2f(100.0f, 150.0f));
 	EdgeCollection* edgeCollection = new EdgeCollection();
 
-	Graph* graph = new Graph(edgeCollection);
+	edgeCollection->addEdge(nodeCollection->nodes[0], nodeCollection->nodes[1], 50);
+	edgeCollection->addEdge(nodeCollection->nodes[0], nodeCollection->nodes[2], 89);
+	edgeCollection->addEdge(nodeCollection->nodes[2], nodeCollection->nodes[3], 87);
+	edgeCollection->addEdge(nodeCollection->nodes[4], nodeCollection->nodes[6], 10);
+	edgeCollection->addEdge(nodeCollection->nodes[0], nodeCollection->nodes[5], 75);
+	edgeCollection->addEdge(nodeCollection->nodes[1], nodeCollection->nodes[5], 63);
+	edgeCollection->addEdge(nodeCollection->nodes[3], nodeCollection->nodes[4], 90);
+	edgeCollection->addEdge(nodeCollection->nodes[1], nodeCollection->nodes[4], 21);
+	edgeCollection->addEdge(nodeCollection->nodes[5], nodeCollection->nodes[4], 98);
 
+
+	Graph* graph = new Graph(edgeCollection);
 	UserController* userController = new UserController(edgeCollection, nodeCollection, graph);
 
 	OperationController* operationController = new OperationController(graph);
 
 
-
-	while (window.isOpen())
+	while (window.isOpen()) 
 	{
 		sf::Event event;
 
@@ -72,6 +88,7 @@ int main()
 		
 		operationController->controlDFS();
 		operationController->controlBFS();
+
 		window.clear();
 		window.draw(*nodeCollection);
 		window.draw(*edgeCollection);
