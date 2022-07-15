@@ -8,7 +8,8 @@
 #include "Operations.h"
 #include "UserController.h"
 #include "OperationController.h"
-
+#include <TGUI/TGUI.hpp>
+#include <TGUI/Backend/SFML-Graphics.hpp>
 /*	if (!rightClicked)
 		{
 			for (unsigned int i = 0; i < nodeCollection->nodes.size(); i++)
@@ -64,6 +65,13 @@ int main()
 
 	OperationController* operationController = new OperationController(graph);
 
+	tgui::Gui gui(window);
+
+
+	gui.loadWidgetsFromFile("form.txt");
+
+
+
 
 	while (window.isOpen()) 
 	{
@@ -90,6 +98,7 @@ int main()
 		operationController->controlBFS();
 
 		window.clear();
+		gui.draw();
 		window.draw(*nodeCollection);
 		window.draw(*edgeCollection);
 		if (userController->connectingNodes)
