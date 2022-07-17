@@ -1,5 +1,6 @@
 #pragma once
 #include <iostream>
+#include <TGUI/TGUI.hpp>
 #define log(x) std::cout << x << std::endl;
 #define RED sf::Color::Red
 #define BLACK sf::Color::Black
@@ -14,6 +15,8 @@
 #define M_KEY sf::Keyboard::M
 #define IS_MOUSE_CLICKED sf::Mouse::isButtonPressed
 #define IS_KEY_PRESSED sf::Keyboard::isKeyPressed
+using tgui::Button;
+using tgui::RadioButton;
 constexpr unsigned int WINDOW_HEIGHT = 900;
 constexpr unsigned int WINDOW_WIDTH = 1600;
 constexpr unsigned int NODE_FONT_SIZE = 25;

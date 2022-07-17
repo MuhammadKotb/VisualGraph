@@ -77,7 +77,10 @@ void EdgeCollection::draw(sf::RenderTarget& target, sf::RenderStates states) con
 	{
 		edge->updatePosition();
 		target.draw(edge->getVertexArray());
-		target.draw(edge->getWeightText());
+		if (this->drawWeight)
+		{
+			target.draw(edge->getWeightText());
+		}
 	}
 }
 
@@ -86,3 +89,4 @@ void EdgeCollection::addEdge(Node* node1, Node* node2, float weight)
 	Edge* edge = new Edge(node1, node2, weight);
 	this->edges.push_back(edge);
 }
+

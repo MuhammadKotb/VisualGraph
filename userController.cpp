@@ -1,10 +1,17 @@
 #include "UserController.h"
 #include <SFML/Graphics.hpp>
-
-UserController::UserController(EdgeCollection* edgeCollection, NodeCollection* nodeCollection, Graph* graph) : 
-	edgeCollection(edgeCollection), nodeCollection(nodeCollection), graph(graph)
+UserController::UserController(tgui::Gui* gui, EdgeCollection* edgeCollection, NodeCollection* nodeCollection, Graph* graph) : 
+	gui(gui), edgeCollection(edgeCollection), nodeCollection(nodeCollection), graph(graph)
 {
 	this->createdEdge = sf::VertexArray(sf::Lines, 2);
+	this->newNodeButton = std::static_pointer_cast<tgui::Button>(this->gui->get("newNodeButton"));
+	this->weightedButton = std::static_pointer_cast<tgui::RadioButton>(this->gui->get("WeightedButton"));
+	this->unweightedButton = std::static_pointer_cast<tgui::RadioButton>(this->gui->get("UnweightedButton"));
+	this->newNodeButton->onClick(&UserController::controlNodeCreation, this);
+	this->weightedButton->setChecked(true);
+
+	this->weightedButton->onCheck([&]() {this->edgeCollection->drawWeight = true; });
+	this->unweightedButton->onCheck([&]() {this->edgeCollection->drawWeight = false; });
 }
 
 UserController::~UserController()
@@ -49,23 +56,9 @@ void UserController::controlNodeMovement(sf::RenderWindow& window)
 
 }
 
-void UserController::controlNodeCreation(sf::RenderWindow& window)
+void UserController::controlNodeCreation()
 {
-	if (IS_KEY_PRESSED(M_KEY))
-	{
-		if (!this->mPressed)
-		{
-			nodeCollection->addNode(sf::Vector2f(60.0f, 60.0f));
-			this->mPressed = true;
-		}
-	}
-	else
-	{
-		if (this->mPressed)
-		{
-			this->mPressed = false;
-		}
-	}
+	nodeCollection->addNode(sf::Vector2f(60.0f, 60.0f));
 }
 
 void UserController::controlEdgeCreation(sf::RenderWindow& window)

@@ -2,26 +2,26 @@
 #include <thread>
 #include <chrono>
 #include <queue>
-void recursiveDFS(Graph* graph, Node* node, std::unordered_set<int>& visited)
+void recursiveDFS(Graph* graph, Node* node, std::unordered_set<int>& visited, unsigned int delayTime)
 {
 	visited.insert(node->id);
 	node->setFillColor(RED);
-	std::this_thread::sleep_for(std::chrono::milliseconds(DELAY));
+	std::this_thread::sleep_for(std::chrono::milliseconds(delayTime));
 	node->setFillColor(BLACK);
 	for (const auto& adjNode : graph->adjacentList.at(node))
 	{
 		if (!visited.contains(adjNode->id))
 		{
-			recursiveDFS(graph, adjNode, visited);
+			recursiveDFS(graph, adjNode, visited, delayTime);
 			node->setFillColor(GREEN);
-			std::this_thread::sleep_for(std::chrono::milliseconds(DELAY));
+			std::this_thread::sleep_for(std::chrono::milliseconds(delayTime));
 			node->setFillColor(BLACK);
 		}
 	}
 
 }
 
-void DFS(Graph* graph)
+void DFS(Graph* graph, unsigned int delayTime)
 {
 	graph->update();
 	std::unordered_set<int> visited;
@@ -30,13 +30,13 @@ void DFS(Graph* graph)
 	{
 		if (!visited.contains(kv.first->id))
 		{
-			recursiveDFS(graph, kv.first, visited);
+			recursiveDFS(graph, kv.first, visited, delayTime);
 		}
 	}
 }
 
 
-void recursiveBFS(Graph* graph, Node* node, std::unordered_set<int>& visited, std::queue<Node*>& adjNodes)
+void recursiveBFS(Graph* graph, Node* node, std::unordered_set<int>& visited, std::queue<Node*>& adjNodes, unsigned int delayTime)
 {
 	visited.insert(node->id);
 	if (!adjNodes.empty())
@@ -44,7 +44,7 @@ void recursiveBFS(Graph* graph, Node* node, std::unordered_set<int>& visited, st
 		adjNodes.pop();
 	}
 	node->setFillColor(RED);
-	std::this_thread::sleep_for(std::chrono::milliseconds(DELAY));
+	std::this_thread::sleep_for(std::chrono::milliseconds(delayTime));
 	node->setFillColor(BLACK);
 	for (const auto& adjNode : graph->adjacentList.at(node))
 	{
@@ -57,13 +57,13 @@ void recursiveBFS(Graph* graph, Node* node, std::unordered_set<int>& visited, st
 	{
 		if (!visited.contains(adjNodes.front()->id))
 		{
-			recursiveBFS(graph, adjNodes.front(), visited, adjNodes);
+			recursiveBFS(graph, adjNodes.front(), visited, adjNodes, delayTime);
 		}
 	}
 }
 
 
-void BFS(Graph* graph)
+void BFS(Graph* graph, unsigned int delayTime)
 {
 	graph->update();
 
@@ -74,7 +74,7 @@ void BFS(Graph* graph)
 	{
 		if (!visited.contains(kv.first->id))
 		{
-			recursiveBFS(graph, kv.first, visited, ajdNodes);
+			recursiveBFS(graph, kv.first, visited, ajdNodes, delayTime);
 		}
 	}
 }

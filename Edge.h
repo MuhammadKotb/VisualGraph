@@ -18,6 +18,8 @@ public:
 	const sf::VertexArray& getVertexArray() const;
 	const sf::Text& getWeightText() const;
 	const Nodes getNodes() const;
+	
+
 
 
 private:
@@ -36,6 +38,7 @@ private:
 struct EdgeCollection : public sf::Drawable
 {
 	std::vector<Edge*> edges;
+	bool drawWeight = true;
 	EdgeCollection();
 	~EdgeCollection();
 	void addEdge(Node* node1, Node* node2, float weight = 1.0f);

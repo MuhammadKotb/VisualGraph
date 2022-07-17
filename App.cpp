@@ -10,6 +10,11 @@
 #include "OperationController.h"
 #include <TGUI/TGUI.hpp>
 #include <TGUI/Backend/SFML-Graphics.hpp>
+
+class Student {
+public:
+	virtual void func() = 0;
+};
 /*	if (!rightClicked)
 		{
 			for (unsigned int i = 0; i < nodeCollection->nodes.size(); i++)
@@ -29,7 +34,10 @@
 			}
 		}*/
 
-
+void print()
+{
+	log("print");
+}
 int main()
 {
 
@@ -37,7 +45,8 @@ int main()
 
 	settings.antialiasingLevel = 16;
 	sf::RenderWindow window(sf::VideoMode(WINDOW_WIDTH, WINDOW_HEIGHT), "VisualGraph", sf::Style::Close | sf::Style::Titlebar, settings);
-
+	tgui::Gui* gui = new tgui::Gui(window);
+	gui->loadWidgetsFromFile("UI.txt");
 	NodeCollection* nodeCollection = new NodeCollection();
 
 	nodeCollection->addNode(sf::Vector2f(10.0f, 15.0f));
@@ -61,24 +70,20 @@ int main()
 
 
 	Graph* graph = new Graph(edgeCollection);
-	UserController* userController = new UserController(edgeCollection, nodeCollection, graph);
+	UserController* userController = new UserController(gui, edgeCollection, nodeCollection, graph);
 
-	OperationController* operationController = new OperationController(graph);
-
-	tgui::Gui gui(window);
+	OperationController* operationController = new OperationController(gui, graph);
 
 
-	gui.loadWidgetsFromFile("form.txt");
-
-
-
-
+	
 	while (window.isOpen()) 
 	{
+
 		sf::Event event;
 
 		while (window.pollEvent(event))
 		{
+			gui->handleEvent(event);
 			if (event.type == sf::Event::Closed)
 			{
 				window.close();
@@ -92,13 +97,10 @@ int main()
 
 		userController->controlNodeMovement(window);
 		userController->controlEdgeCreation(window);
-		userController->controlNodeCreation(window);
 		
-		operationController->controlDFS();
-		operationController->controlBFS();
 
 		window.clear();
-		gui.draw();
+		gui->draw();
 		window.draw(*nodeCollection);
 		window.draw(*edgeCollection);
 		if (userController->connectingNodes)

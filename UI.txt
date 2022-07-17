@@ -1,0 +1,232 @@
+Renderer.1 {
+    BackgroundColor = #F5F5F5;
+    BackgroundColorDisabled = #E6E6E6;
+    BackgroundColorHover = white;
+    BorderColor = #3C3C3C;
+    BorderColorDisabled = #7D7D7D;
+    BorderColorFocused = #1E1EB4;
+    BorderColorHover = black;
+    Borders = (2, 2, 2, 2);
+    CheckColor = #FF4C62;
+    CheckColorDisabled = #7D7D7D;
+    CheckColorHover = black;
+    TextColor = #FF797C;
+    TextColorDisabled = #7D7D7D;
+    TextColorHover = black;
+    TextDistanceRatio = 0.2;
+    TextureChecked = None;
+    TextureCheckedDisabled = None;
+    TextureCheckedFocused = None;
+    TextureCheckedHover = None;
+    TextureUnchecked = None;
+    TextureUncheckedDisabled = None;
+    TextureUncheckedFocused = None;
+    TextureUncheckedHover = None;
+}
+
+Panel.rightPanel {
+    Position = (1400, 0);
+    Size = (200, 900);
+
+    Renderer {
+        BackgroundColor = rgb(80, 80, 80);
+        TextureBackground = None;
+    }
+
+    Button.newNodeButton {
+        Position = (50, 260);
+        Text = "New Node";
+        TextSize = 13;
+
+        Renderer {
+            BackgroundColor = #FF797C;
+            BackgroundColorDisabled = #E6E6E6;
+            BackgroundColorDown = #EBEBEB;
+            BackgroundColorHover = #FF3509;
+            BorderColor = black;
+            BorderColorDisabled = #7D7D7D;
+            BorderColorDown = black;
+            BorderColorDownHover = #35FF0000;
+            BorderColorFocused = #1E1EB4;
+            BorderColorHover = black;
+            Borders = (2, 2, 2, 2);
+            RoundedBorderRadius = 2;
+            TextColor = black;
+            TextColorDisabled = #7D7D7D;
+            TextColorDown = black;
+            TextColorHover = black;
+            Texture = None;
+            TextureDisabled = None;
+            TextureDown = None;
+            TextureDownFocused = None;
+            TextureDownHover = None;
+            TextureFocused = None;
+            TextureHover = None;
+        }
+    }
+
+    Label.VisualGraph {
+        HorizontalAlignment = Center;
+        Position = (40, 30);
+        Size = (120.2, 34.7332);
+        Text = VisualGraph;
+        TextSize = 18;
+
+        Renderer {
+            BackgroundColor = transparent;
+            BorderColor = black;
+            Borders = (0, 0, 0, 0);
+            TextColor = #FFB37B;
+            TextureBackground = None;
+        }
+    }
+
+    RadioButton.WeightedButton {
+        Position = (41, 150);
+        Renderer = &1;
+        Size = (18, 18);
+        Text = Weighted;
+        TextSize = 16;
+    }
+
+    RadioButton.UnweightedButton {
+        Position = (41, 180);
+        Renderer = &1;
+        Size = (18, 18);
+        Text = Unweighted;
+        TextSize = 16;
+    }
+}
+
+RadioButton.DirectedRadioButton {
+    Position = (1440, 90);
+    Size = (18, 18);
+    Text = Directed;
+    TextSize = 16;
+
+    Renderer {
+        BackgroundColor = #F5F5F5;
+        BackgroundColorDisabled = #E6E6E6;
+        BackgroundColorHover = white;
+        BorderColor = #3C3C3C;
+        BorderColorDisabled = #7D7D7D;
+        BorderColorFocused = #1E1EB4;
+        BorderColorHover = black;
+        Borders = (2, 2, 2, 2);
+        CheckColor = #FF4C62;
+        CheckColorDisabled = #7D7D7D;
+        CheckColorHover = black;
+        TextColor = #FF797C;
+        TextColorDisabled = #7D7D7D;
+        TextColorHover = black;
+        TextDistanceRatio = 0.2;
+        TextureChecked = None;
+        TextureCheckedDisabled = None;
+        TextureCheckedFocused = None;
+        TextureCheckedHover = None;
+        TextureUnchecked = None;
+        TextureUncheckedDisabled = None;
+        TextureUncheckedFocused = None;
+        TextureUncheckedHover = None;
+    }
+}
+
+RadioButton.UndirectedRadioButton {
+    Position = (1440, 120);
+    Renderer = &1;
+    Size = (18, 18);
+    Text = Undirected;
+    TextSize = 16;
+}
+
+ComboBox.OperationsComboBox {
+    ChangeItemOnScroll = true;
+    ExpandDirection = Down;
+    Items = ["Breadth First Search", "Depth First Search", "Kurskal's Algorithms", "Prim's Algorithms"];
+    ItemsToDisplay = 0;
+    MaximumItems = 0;
+    Position = (1410, 320);
+    Size = (180, 22);
+    TextSize = 13;
+
+    Renderer {
+        ArrowBackgroundColor = #F5F5F5;
+        ArrowBackgroundColorHover = white;
+        ArrowColor = #3C3C3C;
+        ArrowColorHover = #FF586E;
+        BackgroundColor = #F5F5F5;
+        BorderColor = black;
+        Borders = (2, 2, 2, 2);
+        DefaultTextStyle = Italic;
+        Padding = (0, 0, 0, 0);
+        TextColor = #3C3C3C;
+        TextStyle = Bold | Italic;
+        TextureArrow = None;
+        TextureArrowDisabled = None;
+        TextureArrowHover = None;
+        TextureBackground = None;
+        TextureBackgroundDisabled = None;
+    }
+}
+
+Button.PlayButton {
+    Position = (1420, 360);
+    Text = PLAY;
+    TextSize = 13;
+
+    Renderer {
+        BackgroundColor = #F5F5F5;
+        BackgroundColorDisabled = #E6E6E6;
+        BackgroundColorDown = #EBEBEB;
+        BackgroundColorHover = white;
+        BorderColor = #3C3C3C;
+        BorderColorDisabled = #7D7D7D;
+        BorderColorDown = black;
+        BorderColorFocused = #1E1EB4;
+        BorderColorHover = black;
+        Borders = (1, 1, 1, 1);
+        TextColor = #3C3C3C;
+        TextColorDisabled = #7D7D7D;
+        TextColorDown = black;
+        TextColorHover = black;
+        Texture = None;
+        TextureDisabled = None;
+        TextureDown = None;
+        TextureDownFocused = None;
+        TextureDownHover = None;
+        TextureFocused = None;
+        TextureHover = None;
+    }
+}
+
+EditBox.DelayTime {
+    DefaultText = "1000 ";
+    InputValidator = UInt;
+    Position = (1490, 360);
+    Size = (90, 22);
+    Suffix = ms;
+    TextSize = 13;
+    TextWidthLimited = true;
+
+    Renderer {
+        BackgroundColor = #F5F5F5;
+        BackgroundColorDisabled = #E6E6E6;
+        BackgroundColorHover = white;
+        BorderColor = #3C3C3C;
+        BorderColorDisabled = #7D7D7D;
+        BorderColorHover = black;
+        Borders = (1, 1, 1, 1);
+        CaretColor = black;
+        CaretWidth = 1;
+        DefaultTextColor = #A0A0A0;
+        Padding = (0, 0, 0, 0);
+        SelectedTextBackgroundColor = #006EFF;
+        SelectedTextColor = white;
+        TextColor = #3C3C3C;
+        TextColorDisabled = #7D7D7D;
+        Texture = None;
+        TextureDisabled = None;
+        TextureFocused = None;
+        TextureHover = None;
+    }
+}
