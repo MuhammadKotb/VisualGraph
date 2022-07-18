@@ -81,7 +81,7 @@ Panel.rightPanel {
         }
     }
 
-    RadioButton.WeightedButton {
+    RadioButton.WeightedRadioButton {
         Position = (41, 150);
         Renderer = &1;
         Size = (18, 18);
@@ -89,7 +89,7 @@ Panel.rightPanel {
         TextSize = 16;
     }
 
-    RadioButton.UnweightedButton {
+    RadioButton.UnweightedRadioButton {
         Position = (41, 180);
         Renderer = &1;
         Size = (18, 18);

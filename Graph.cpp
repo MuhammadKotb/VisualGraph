@@ -34,6 +34,10 @@ void Graph::update()
 			this->adjacentList.insert({ node1, std::vector<Node*>() });
 			this->adjacentList.at(node1).push_back(node2);
 		}
+		if (this->edgeCollection->directed)
+		{
+			continue;
+		}
 		if (this->adjacentList.contains(node2))
 		{
 			this->adjacentList.at(node2).push_back(node1);

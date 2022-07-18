@@ -16,6 +16,8 @@ public:
 	tgui::Button::Ptr newNodeButton;
 	tgui::RadioButton::Ptr weightedButton;
 	tgui::RadioButton::Ptr unweightedButton;
+	tgui::RadioButton::Ptr directedButton;
+	tgui::RadioButton::Ptr undirectedButton;
 	bool leftClick = false;
 	bool rightClick = false;
 	bool mPressed = false;

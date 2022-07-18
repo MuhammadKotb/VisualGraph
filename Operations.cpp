@@ -8,16 +8,20 @@ void recursiveDFS(Graph* graph, Node* node, std::unordered_set<int>& visited, un
 	node->setFillColor(RED);
 	std::this_thread::sleep_for(std::chrono::milliseconds(delayTime));
 	node->setFillColor(BLACK);
-	for (const auto& adjNode : graph->adjacentList.at(node))
+	if (graph->adjacentList.contains(node))
 	{
-		if (!visited.contains(adjNode->id))
+		for (const auto& adjNode : graph->adjacentList.at(node))
 		{
-			recursiveDFS(graph, adjNode, visited, delayTime);
-			node->setFillColor(GREEN);
-			std::this_thread::sleep_for(std::chrono::milliseconds(delayTime));
-			node->setFillColor(BLACK);
+			if (!visited.contains(adjNode->id))
+			{
+				recursiveDFS(graph, adjNode, visited, delayTime);
+				node->setFillColor(GREEN);
+				std::this_thread::sleep_for(std::chrono::milliseconds(delayTime));
+				node->setFillColor(BLACK);
+			}
 		}
 	}
+	
 
 }
 
@@ -46,13 +50,17 @@ void recursiveBFS(Graph* graph, Node* node, std::unordered_set<int>& visited, st
 	node->setFillColor(RED);
 	std::this_thread::sleep_for(std::chrono::milliseconds(delayTime));
 	node->setFillColor(BLACK);
-	for (const auto& adjNode : graph->adjacentList.at(node))
+	if (graph->adjacentList.contains(node))
 	{
-		if (!visited.contains(adjNode->id))
+		for (const auto& adjNode : graph->adjacentList.at(node))
 		{
-			adjNodes.push(adjNode);
+			if (!visited.contains(adjNode->id))
+			{
+				adjNodes.push(adjNode);
+			}
 		}
 	}
+	
 	if (!adjNodes.empty())
 	{
 		if (!visited.contains(adjNodes.front()->id))

@@ -5,13 +5,18 @@ UserController::UserController(tgui::Gui* gui, EdgeCollection* edgeCollection, N
 {
 	this->createdEdge = sf::VertexArray(sf::Lines, 2);
 	this->newNodeButton = std::static_pointer_cast<tgui::Button>(this->gui->get("newNodeButton"));
-	this->weightedButton = std::static_pointer_cast<tgui::RadioButton>(this->gui->get("WeightedButton"));
-	this->unweightedButton = std::static_pointer_cast<tgui::RadioButton>(this->gui->get("UnweightedButton"));
+	this->weightedButton = std::static_pointer_cast<tgui::RadioButton>(this->gui->get("WeightedRadioButton"));
+	this->unweightedButton = std::static_pointer_cast<tgui::RadioButton>(this->gui->get("UnweightedRadioButton"));
+	this->directedButton = std::static_pointer_cast<tgui::RadioButton>(this->gui->get("DirectedRadioButton"));
+	this->undirectedButton = std::static_pointer_cast<tgui::RadioButton>(this->gui->get("UndirectedRadioButton"));
 	this->newNodeButton->onClick(&UserController::controlNodeCreation, this);
 	this->weightedButton->setChecked(true);
+	this->directedButton->setChecked(true);
 
-	this->weightedButton->onCheck([&]() {this->edgeCollection->drawWeight = true; });
-	this->unweightedButton->onCheck([&]() {this->edgeCollection->drawWeight = false; });
+	this->weightedButton->onCheck([&]() {this->edgeCollection->weighted = true; this->graph->update(); });
+	this->unweightedButton->onCheck([&]() {this->edgeCollection->weighted = false; this->graph->update(); });
+	this->directedButton->onCheck([&]() {this->edgeCollection->directed = true; this->graph->update(); });
+	this->undirectedButton->onCheck([&]() {this->edgeCollection->directed = false; this->graph->update(); });
 }
 
 UserController::~UserController()
@@ -83,7 +88,7 @@ void UserController::controlEdgeCreation(sf::RenderWindow& window)
 		if (fromNode)
 		{
 			this->connectingNodes = true;
-			this->createdEdge[0].position = this->fromNode->getCenter();
+			this->createdEdge[0].position = fromNode->getCenter();
 			this->createdEdge[1].position = (sf::Vector2f)pos;
 		}
 
