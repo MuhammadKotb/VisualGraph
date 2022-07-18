@@ -16,11 +16,7 @@ double getLineCircleIntersection(double x0, double y0, double x1, double y1, dou
 	}
 	double t = ((double)2 * c) / (-b + check);
 
-	/*if (t < 0 || t > 1)
-	{
-		log("LOl2" << " " << t);
-		return 0;
-	}*/
+
 	return std::abs(t);
 }
 
